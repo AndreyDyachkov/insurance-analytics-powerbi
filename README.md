@@ -53,25 +53,11 @@ All dashboards support interactive filtering and drill-downs by **time, region, 
 
 ---
 
-## 📈 Key KPIs
-
-* Gross Written Premium (GPW)
-* Gross Premium Earned (GPE)
-* Loss Ratio (LR)
-* Combined Ratio (CR)
-* Claims Frequency & Severity
-* Reported But Not Settled (RBNS)
-* Underwriting Profit
-* Customer Lifetime Value (CLV / LTV)
-* Actual vs Plan Variance & Achievement
-
----
-
 ## 🧱 Data Model
 
 * **Source Systems**:
 
-  * PostgreSQL insurance data mart (policies & claims)
+  * PostgreSQL insurance data mart
   * Excel budget / plan table
 
 * **Schema Design**:
@@ -79,7 +65,7 @@ All dashboards support interactive filtering and drill-downs by **time, region, 
   * Star schema
   * Fact tables: Policies, Claims
   * Plan fact table at a different granularity
-  * Shared dimensions (Date, Product, Customer, Region, LOB)
+  * Shared dimensions (Date, Product, Customer, Claim Status)
 
 * **Connectivity**:
 
@@ -94,7 +80,7 @@ All dashboards support interactive filtering and drill-downs by **time, region, 
 * Conversion from snowflake to star schema
 * Removal of unnecessary columns
 * Custom date tables and disabled auto date/time
-* Dedicated DAX data tables for policies and claims
+* Calculated DAX Date tables for policies and claims
 
 ---
 
@@ -103,9 +89,8 @@ All dashboards support interactive filtering and drill-downs by **time, region, 
 * Dedicated `_measures` table for all KPIs
 * Display folders for logical organisation
 * Advanced time intelligence (YTD, PY, YoY)
-* Calculated columns:
-
-  * Customer age with decade-based groupings (histograms)
+* Calculated columns: 
+  * Customer age
   * Customer geographic location for map visuals
 * Hierarchies for smooth drill-down analysis
 
@@ -149,34 +134,13 @@ These features enable easy migration between development, test, and production e
 
 ---
 
-## 📁 Repository Structure
-
-```
-├── data/               # Sample or schema files (if applicable)
-├── dax/                # DAX measures and calculation logic
-├── powerbi/            # Power BI (.pbix) file
-├── docs/               # Screenshots or documentation
-└── README.md           # Project documentation
-```
-
----
-
 ## 🚀 How to Use
 
-1. Update Power Query parameters (`ServerName`, `DatabaseName`)
-2. Ensure PostgreSQL and Excel sources are accessible
-3. Open the `.pbix` file in Power BI Desktop
-4. Refresh data and explore dashboards
+1. Open insurance_dashboards_v2.0.pdf
+2. For full functionality dowload and open insurance_dashboards_v2.0.pbix
+3. List of DAX measures: _measures.tmdl
 
 ---
-
-## 👤 Author
-
-**Andrei Diachkov**
-Data Analyst | Business Intelligence | Insurance Analytics
-
----
-
 ## 📌 Disclaimer
 
-All data used in this project is **simulated** and created for **demonstration and portfolio purposes only**.
+All data used in this project is simulated and created for demonstration and portfolio purposes only.
