@@ -17,7 +17,7 @@ This repository contains an end-to-end Insurance Analytics Project built in Powe
 
 ## 📊 Dashboards & Analytics
 
-The Power BI report includes the following analytical pages:
+The Power BI report ([`insurance_dashboards_v2.0.pdf`](insurance_dashboards_v2.0.pdf)) includes the following analytical pages:
 
 * **Premium & Revenue Analytics** – Gross Premium Written (GPW) analysis:
     *  GPW by Line Of Business (LOB), Product, Region
