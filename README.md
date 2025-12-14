@@ -57,7 +57,7 @@ All dashboards support interactive filtering and drill-downs by **time, region, 
 
 * **Source Systems**:
 
-  * PostgreSQL insurance data mart
+  * PostgreSQL insurance data mart (See: [`insurance-sql-portfolio-project`](https://github.com/AndreyDyachkov/insurance-sql-portfolio-project) )
   * Excel budget / plan table
 
 * **Schema Design**:
