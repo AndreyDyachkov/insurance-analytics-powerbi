@@ -2,7 +2,7 @@
 
 ## 📌 Project Overview
 
-This repository contains an end-to-end **Insurance Analytics Project** built in **Power BI**, designed to demonstrate professional data modelling, optimisation, and dashboarding techniques commonly used in enterprise BI environments. The project delivers actionable insights across premiums, claims, losses, customers, products, lines of business (LOBs), and regional performance. The solution combines actual insurance data with planning (budget) data to support **Actual vs Plan** analysis.
+This repository contains an end-to-end Insurance Analytics Project built in Power BI, designed to demonstrate professional **data modelling**, **optimisation**, and **dashboarding techniques** commonly used in enterprise BI environments. The project delivers actionable insights across **premiums**, **claims**, **losses**, **customers**, **products**, **lines of business (LOBs)**, and **regional performance**. The solution combines actual insurance data with planning (budget) data to support **Actual vs Plan** analysis.
 
 ---
 
@@ -17,30 +17,39 @@ This repository contains an end-to-end **Insurance Analytics Project** built in 
 
 ## 📊 Dashboards & Analytics
 
-The Power BI report includes multiple analytical pages, such as:
+The Power BI report includes the following analytical pages:
 
-* **Portfolio Performance Overview** – executive summary of key KPIs
-* **Premium & Revenue Analytics** – GPW, GPE, trends, and mix analysis
-* **Claims & Losses Analytics** – frequency, severity, RBNS, and payouts
-* **Loss Ratio & Profitability** – LR, CR, underwriting performance
-* **Actual vs Plan Performance** – budget comparisons and variance analysis
-* **Customer & Product Insights** – segmentation, CLV (LTV), and cross-sell views
+* **Premium & Revenue Analytics** – Gross Premium Written (GPW) analysis:
+    *  GPW by Line Of Business (LOB), Product, Region
+    *  Year-to-Date (YTD), Quarter-to-Date (QTD), and Month-to-Date(MTD) GPW
+    *  Actual vs Budget vs Previous Year (PY) GPW, Year-over-Year(YoY) GPW 
+* **Claims & Losses Analytics**
+    * Claim Frequency, Severity (Average Claim Amount)
+    * Reported But Not Settled (RBNS) and Paid Losses
+    * Claim Status
+* **Profitability** – Financial metrics:
+    * Combined Ratio (CR), Loss Ratio (LR)
+    * Commission Rate, Expense Ratio
+    * Gross Premium Earned (GPE), Losses
+* **Customer Insights**
+    *  Age distribution
+    *  Active customers and Premium in Force by LOB and Product and Region 
+    *  Active customers and Premium in Force by Region on the map 
+    *  Customer Lifetime Value (CLV/LTV)
+    *  Cross-selling metrics: Average Number of LOBs per Customer, Average Number of Products per Customer
+* **LOB & Product Performance**
+  * GPW, GPE by LOB and Product
+  * Claim Frequency, Severity by LOB and Product
+  * GPE, Paid Losses, RBNS by LOB and Product
+  * CR, LR, Commission Rate, Expense Ration by LOB and Product
+  * GPE vs Loss by Product over years (animation)
+* **Regional Performance**
+   *  GPW by Region, LOB and Product Heatmap
+   *  CR  by Region, LOB and Product Heatmap
+   *  Top regions by GPW, LTV
+   *  Active policies (% of Total) by Region
 
 All dashboards support interactive filtering and drill-downs by **time, region, product, and line of business**.
-
----
-
-## 📈 Key KPIs
-
-* Gross Written Premium (GPW)
-* Gross Premium Earned (GPE)
-* Loss Ratio (LR)
-* Combined Ratio (CR)
-* Claims Frequency & Severity
-* Reported But Not Settled (RBNS)
-* Underwriting Profit
-* Customer Lifetime Value (CLV / LTV)
-* Actual vs Plan Variance & Achievement
 
 ---
 
@@ -48,7 +57,7 @@ All dashboards support interactive filtering and drill-downs by **time, region, 
 
 * **Source Systems**:
 
-  * PostgreSQL insurance data mart (policies & claims)
+  * PostgreSQL insurance data mart
   * Excel budget / plan table
 
 * **Schema Design**:
@@ -56,7 +65,9 @@ All dashboards support interactive filtering and drill-downs by **time, region, 
   * Star schema
   * Fact tables: Policies, Claims
   * Plan fact table at a different granularity
-  * Shared dimensions (Date, Product, Customer, Region, LOB)
+  * Shared dimensions (Date, Product, Customer, Claim Status)
+
+<img src="PowerBI_model_schema.png" width="800">
 
 * **Connectivity**:
 
@@ -71,7 +82,7 @@ All dashboards support interactive filtering and drill-downs by **time, region, 
 * Conversion from snowflake to star schema
 * Removal of unnecessary columns
 * Custom date tables and disabled auto date/time
-* Dedicated DAX data tables for policies and claims
+* Calculated DAX Date tables for policies and claims
 
 ---
 
@@ -80,9 +91,8 @@ All dashboards support interactive filtering and drill-downs by **time, region, 
 * Dedicated `_measures` table for all KPIs
 * Display folders for logical organisation
 * Advanced time intelligence (YTD, PY, YoY)
-* Calculated columns:
-
-  * Customer age with decade-based groupings (histograms)
+* Calculated columns: 
+  * Customer age
   * Customer geographic location for map visuals
 * Hierarchies for smooth drill-down analysis
 
@@ -126,34 +136,13 @@ These features enable easy migration between development, test, and production e
 
 ---
 
-## 📁 Repository Structure
-
-```
-├── data/               # Sample or schema files (if applicable)
-├── dax/                # DAX measures and calculation logic
-├── powerbi/            # Power BI (.pbix) file
-├── docs/               # Screenshots or documentation
-└── README.md           # Project documentation
-```
-
----
-
 ## 🚀 How to Use
 
-1. Update Power Query parameters (`ServerName`, `DatabaseName`)
-2. Ensure PostgreSQL and Excel sources are accessible
-3. Open the `.pbix` file in Power BI Desktop
-4. Refresh data and explore dashboards
+1. Open insurance_dashboards_v2.0.pdf
+2. For full functionality dowload and open insurance_dashboards_v2.0.pbix
+3. List of DAX measures: _measures.tmdl
 
 ---
-
-## 👤 Author
-
-**Andrei Diachkov**
-Data Analyst | Business Intelligence | Insurance Analytics
-
----
-
 ## 📌 Disclaimer
 
-All data used in this project is **simulated** and created for **demonstration and portfolio purposes only**.
+All data used in this project is simulated and created for demonstration and portfolio purposes only.
