@@ -1,0 +1,459 @@
+table _measures
+	lineageTag: ebf1b19a-2de6-4306-9aaa-a04de6339efa
+
+	measure GPW =
+			
+			SUM(FactPolicies[premium_amount])
+		formatString: #,0.00
+		displayFolder: Premium Measures
+		lineageTag: 72a0ea30-007b-4f7f-b083-53e05cfa7e6e
+
+	measure 'Avg GPW per Policy' =
+			
+			AVERAGE(FactPolicies[premium_amount])
+		formatString: #,0.00
+		displayFolder: Premium Measures
+		lineageTag: 639fb801-1f7a-4c79-a47c-98daf8dd9089
+
+	measure 'Policies Count' =
+			
+			COUNTROWS(FactPolicies)
+		formatString: #,0
+		displayFolder: Policy Measures
+		lineageTag: ccfbd490-0fae-4725-9a53-5972e0028281
+
+	measure 'GPW YTD' =
+			
+			TOTALYTD([GPW], 'PolicyDate'[Date])
+		formatString: #,0.00
+		displayFolder: Premium Measures
+		lineageTag: c4392fa4-8691-4b12-b1cf-c3026ee2ff90
+
+	measure 'Active Policies Count' =
+			
+			CALCULATE(
+			    [Policies Count],
+			    'FactPolicies'[end_date]>=TODAY()
+			)
+		formatString: #,0
+		displayFolder: Policy Measures
+		lineageTag: 65c42ee3-9ba0-4aa3-9ead-5026ecb8030b
+
+	measure 'GPW MTD' =
+			
+			TOTALMTD([GPW], 'PolicyDate'[Date])
+		formatString: #,0.00
+		displayFolder: Premium Measures
+		lineageTag: d1fb388c-2d81-4dd8-930c-3c19a404c94d
+
+	measure 'GPW QTD' =
+			
+			TOTALQTD([GPW], 'PolicyDate'[Date])
+		formatString: #,0.00
+		displayFolder: Premium Measures
+		lineageTag: ba17585c-798e-4365-a169-fec48d6f84cc
+
+	measure 'Coverage Amount' = SUM('FactPolicies'[coverage_amount])
+		formatString: #,0.00
+		displayFolder: Policy Measures
+		lineageTag: ee8c5724-fcac-4d37-b465-8273c1f1dfba
+
+	measure 'GPW PY' =
+			
+			CALCULATE(
+			    [GPW],
+			    DATEADD('PolicyDate'[Date], -1, YEAR)
+			)
+		formatString: #,0.00
+		displayFolder: Premium Measures
+		lineageTag: d023b3e0-ee11-42d0-b0be-7d73160145a5
+
+	measure 'GPW YoY%' =
+			
+			DIVIDE([GPW],[GPW PY],0)
+		formatString: #,0.00%;-#,0.00%;#,0.00%
+		displayFolder: Premium Measures
+		lineageTag: 5c6e7b55-92b9-41ec-b417-ed070dccf71e
+
+	measure 'GPW YTD PY' =
+			
+			CALCULATE(
+			    [GPW YTD],
+			    DATEADD(PolicyDate[Date], -1, YEAR)
+			)
+		formatString: #,0.00
+		displayFolder: Premium Measures
+		lineageTag: 695271d3-2e9b-4765-b926-da38ad3541bc
+
+	measure 'Avg Coverage Amount per Policy' =
+			
+			AVERAGE(FactPolicies[coverage_amount])
+		formatString: #,0.00
+		displayFolder: Policy Measures
+		lineageTag: 744dca81-3c79-4dce-803e-6ca3ac0102df
+
+	measure 'RBNS (Reported But Not Settled)' =
+			
+			-- Sum of pending claims (estimated future payouts)
+			CALCULATE(
+			    SUM(FactClaims[claim_amount]),
+			    RELATEDTABLE(DimClaimStatus),
+			    DimClaimStatus[status_name] = "Pending"
+			)
+		formatString: #,0.00
+		displayFolder: Claim & Loss Measures
+		lineageTag: 12da971e-f99e-43dd-b911-c4e2314a605c
+
+	measure 'Paid Losses' =
+			
+			-- Sum of approved claims (actual payouts made)
+			CALCULATE(
+			    SUM(FactClaims[payout_amount]),
+			    RELATEDTABLE(DimClaimStatus),
+			    DimClaimStatus[status_name] = "Approved"
+			)
+		formatString: #,0.00
+		displayFolder: Claim & Loss Measures
+		lineageTag: 3409e4b4-b0e7-445e-a65d-38e0c4aaa551
+
+	measure Losses =
+			[Paid Losses] + [RBNS (Reported But Not Settled)]
+			-- not include IBNR for simplicity
+		formatString: #,0.00
+		displayFolder: Claim & Loss Measures
+		lineageTag: 45700c48-1b8d-483f-b3c8-21a79234f897
+
+	measure 'GPE (Gross Premium Earned)' = ```
+			
+			    -- Get reporting period boundaries
+			    VAR ReportStart = FIRSTDATE('Date'[Date])  
+			    VAR ReportEnd = LASTDATE('Date'[Date])
+			    VAR RelevantPolicies = 
+			        CALCULATETABLE(
+			            FactPolicies,
+			            FactPolicies[start_date] <= ReportEnd,
+			            FactPolicies[end_date] >= ReportStart
+			        )
+			    RETURN
+			
+			    -- Calculate earned premium for each relevant policy 
+			    SUMX(
+			        RelevantPolicies,
+			        -- Policy-specific variables (calculated per row)
+			        VAR PolicyStart = FactPolicies[start_date]
+			        VAR PolicyEnd = FactPolicies[end_date]
+			        VAR PremiumAmount = FactPolicies[premium_amount]
+			        VAR PolicyDays = DATEDIFF(PolicyStart, PolicyEnd, DAY) + 1
+			        
+			        -- Calculate overlap between policy and reporting periods
+			        VAR EarnedStart = MAX(PolicyStart, ReportStart)
+			        VAR EarnedEnd = MIN(PolicyEnd, ReportEnd)
+			        VAR EarnedDays = DATEDIFF(EarnedStart, EarnedEnd, DAY) + 1 
+			                
+			        -- Return earned premium for this policy
+			        RETURN DIVIDE(PremiumAmount * EarnedDays, PolicyDays, 0)
+			    )
+			```
+		formatString: #,0.00
+		displayFolder: Premium Measures
+		lineageTag: c1bd6e55-3a88-4f53-a419-cdd1fc6f9614
+
+	measure 'LR (Loss Ratio)' =
+			
+			DIVIDE([Losses],[GPE (Gross Premium Earned)],0)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Profitability Measures
+		lineageTag: 498118fa-7168-4166-9cf8-8eccc6c05c78
+
+	measure 'CR (Combined Ratio)' = [LR (Loss Ratio)]+[CommissionRate Value]+[ExpenseRatio Value]
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Profitability Measures
+		lineageTag: b0b2eaae-85e7-4d75-b268-c13e7e4d61a5
+
+	measure 'Active Policies Coverage Amount' =
+			
+			CALCULATE(
+			    [Coverage Amount],
+			    'FactPolicies'[end_date]>=TODAY()
+			)
+		displayFolder: Policy Measures
+		lineageTag: e10bd89c-01ac-4338-bf15-bf578b5d9f6d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'GPW YTD YoY%' =
+			
+			DIVIDE([GPW YTD],[GPW YTD PY],0)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Premium Measures
+		lineageTag: 6a18f331-1c32-4142-8afe-c88273afdeaf
+
+	measure 'Budget GPW' = SUM(PlanGPW2025[GPW, plan])
+		formatString: #,0
+		displayFolder: Premium Measures
+		lineageTag: 530f7ec0-3bc9-441a-90c9-5170656764b0
+
+	measure 'Budget GPW YTD' =
+			
+			TOTALYTD([Budget GPW], 'PolicyDate'[Date])
+		formatString: #,0.00
+		displayFolder: Premium Measures
+		lineageTag: 951c5a6b-f430-4f6f-a1fb-e0bf6a4d4a56
+
+	measure 'GPW Achievement %' =
+			
+			DIVIDE ( [GPW], [Budget GPW] )
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Premium Measures
+		lineageTag: 539facaf-a94e-4012-87ee-bc8cc5d0a5ce
+
+	measure 'GPW YTD Achivement %' =
+			
+			DIVIDE([GPW YTD],[Budget GPW YTD],0)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Premium Measures
+		lineageTag: 8e6f763a-9a34-4218-ad25-e71c1457fdb7
+
+	measure 'Customers Count' =
+			
+			COUNTROWS('DimCustomer')
+		formatString: 0
+		displayFolder: Customer Measures
+		lineageTag: fd01497d-f62c-412a-9161-3f36856d4a55
+
+	measure 'Active Customers Count' =
+			
+			CALCULATE(
+			    [Customers Count],
+			    'FactPolicies'[end_date]>=TODAY()
+			)
+		formatString: 0
+		displayFolder: Customer Measures
+		lineageTag: a40945d9-764a-4868-94e9-cefc726b2e58
+
+	measure 'Premium in Force' =
+			
+			CALCULATE(
+			    [GPW],
+			    'FactPolicies'[end_date]>=TODAY()
+			)
+		formatString: #,0.00
+		displayFolder: Premium Measures
+		lineageTag: 734c69ee-1c65-4911-8c22-62f37ca9c5e9
+
+	measure 'Customer Lifetime Value (LTV)' =
+			
+			VAR GPE = [GPE (Gross Premium Earned)]
+			RETURN
+			GPE
+			- GPE * [CommissionRate Value]
+			 - GPE * [ExpenseRatio Value]
+			 - [Losses]
+		displayFolder: Customer Measures
+		lineageTag: 350c0067-2d83-49a6-8be3-d71271dce90e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Avg LOB per Customer' =
+			
+			AVERAGEX(
+			    VALUES(FactPolicies[customer_id]),
+			    CALCULATE(
+			        DISTINCTCOUNT(DimProduct[policy_type_name])
+			    )
+			)
+		formatString: #,0.00
+		displayFolder: Customer Measures
+		lineageTag: c003ce4d-27af-444b-ac4e-e37e1c09ebdf
+
+	measure 'Avg Products Count per Customer' =
+			
+			AVERAGEX (
+			    VALUES ( FactPolicies[customer_id] ),
+			    CALCULATE (
+			        DISTINCTCOUNT ( FactPolicies[product_id] )
+			    )
+			)
+		displayFolder: Customer Measures
+		lineageTag: 7fc56b1a-c066-49aa-b5c4-c56162454b2f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Avg GPW per Customer' =
+			
+			DIVIDE([GPW],[Customers Count],0)
+		formatString: 0
+		displayFolder: Customer Measures
+		lineageTag: 1b1d6530-8f12-4e79-b93f-b062add8f70e
+
+	measure 'Avg GPW per Active Customer' =
+			
+			DIVIDE([Premium in Force],[Active Customers Count],0)
+		formatString: #,0.00
+		displayFolder: Customer Measures
+		lineageTag: 31e19af3-fdcd-4e89-af42-cc7822504827
+
+	measure 'Avg Loss per Customer' =
+			
+			DIVIDE([Losses],[Customers Count],0)
+		displayFolder: Customer Measures
+		lineageTag: 57b56aca-9149-45a9-ab3c-635deea478ed
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Claims Count' = COUNTROWS('FactClaims')
+		formatString: 0
+		displayFolder: Claim & Loss Measures
+		lineageTag: 9865a030-40c3-4ea5-a4cc-7495275a7337
+
+	measure 'Severity (Avg Claim Amount)' =
+			
+			DIVIDE([Losses],[Claims Count],0)
+		displayFolder: Claim & Loss Measures
+		lineageTag: 2fbb48e8-0484-4a3b-bbe7-abe4a841a570
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Exposure = ```
+			
+			    -- Get reporting period boundaries
+			    VAR ReportStart = FIRSTDATE('Date'[Date])  
+			    VAR ReportEnd = LASTDATE('Date'[Date])
+			    VAR RelevantPolicies = 
+			        CALCULATETABLE(
+			            FactPolicies,
+			            FactPolicies[start_date] <= ReportEnd,
+			            FactPolicies[end_date] >= ReportStart
+			        )
+			    RETURN
+			
+			    -- Calculate exposure for each relevant policy 
+			    SUMX(
+			        RelevantPolicies,
+			        -- Policy-specific variables (calculated per row)
+			        VAR PolicyStart = FactPolicies[start_date]
+			        VAR PolicyEnd = FactPolicies[end_date]
+			        VAR PolicyDays = DATEDIFF(PolicyStart, PolicyEnd, DAY) + 1
+			        
+			        -- Calculate overlap between policy and reporting periods
+			        VAR EarnedStart = MAX(PolicyStart, ReportStart)
+			        VAR EarnedEnd = MIN(PolicyEnd, ReportEnd)
+			        VAR EarnedDays = DATEDIFF(EarnedStart, EarnedEnd, DAY) + 1 
+			                
+			        -- Return earned premium for this policy
+			        RETURN DIVIDE(EarnedDays, PolicyDays, 0)
+			    )
+			```
+		displayFolder: Policy Measures
+		lineageTag: 0f016c4f-3d27-4f75-b8ee-f77295d91363
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Frequency =
+			
+			DIVIDE([Claims Count],[Exposure],0)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Claim & Loss Measures
+		lineageTag: 630be98d-f359-4606-89fe-e3318ba0aa4a
+
+	measure 'Products Count' = COUNTROWS('DimProduct')
+		formatString: 0
+		displayFolder: Policy Measures
+		lineageTag: 652d7b3b-77fa-4bc6-b70a-e3899347a87a
+
+	measure 'LOB Count' = DISTINCTCOUNT(DimProduct[policy_type_name])
+		formatString: 0
+		displayFolder: Policy Measures
+		lineageTag: 5e7edbfc-10be-4b19-ac12-debb60f987ea
+
+	measure 'Regions Count' = DISTINCTCOUNT('DimCustomer'[region_name])
+		formatString: 0
+		displayFolder: Policy Measures
+		lineageTag: 8205be33-291a-4885-b82b-6ff584cb093f
+
+	measure 'Top Region by GPW' =
+			
+			VAR TopRegionTable =
+			    TOPN (
+			        1,
+			        VALUES ( DimCustomer[region_name] ),
+			        [GPW],
+			        DESC
+			    )
+			RETURN
+			    MAXX ( TopRegionTable, DimCustomer[region_name]  )
+		displayFolder: Customer Measures
+		lineageTag: dcb5613d-c513-4c9b-b58b-1a0f0c2852b8
+
+	measure 'Top Region GPW' =
+			
+			MAXX (
+			    TOPN (
+			        1,
+			        VALUES ( DimCustomer[region_name] ),
+			        [GPW],
+			        DESC
+			    ),
+			    [GPW]
+			)
+		displayFolder: Customer Measures
+		lineageTag: 7d0ddda1-83bb-45e0-85a4-968f671a7927
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Top Region by LTV' =
+			
+			VAR TopRegionTable =
+			    TOPN (
+			        1,
+			        VALUES ( DimCustomer[region_name] ),
+			        [Customer Lifetime Value (LTV)],
+			        DESC
+			    )
+			RETURN
+			    MAXX ( TopRegionTable, DimCustomer[region_name]  )
+		displayFolder: Customer Measures
+		lineageTag: d067a48e-aa06-45e9-ba8e-b9196d6ceda9
+
+	measure 'Top Region LTV' =
+			
+			MAXX (
+			    TOPN (
+			        1,
+			        VALUES ( DimCustomer[region_name] ),
+			        [Customer Lifetime Value (LTV)],
+			        DESC
+			    ),
+			    [Customer Lifetime Value (LTV)]
+			)
+		displayFolder: Customer Measures
+		lineageTag: 5d91672b-a1f3-4a8c-9ac6-74c0c3c6f459
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'CommissionRate Value' = SELECTEDVALUE('CommissionRate'[CommissionRate], 0.06)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Profitability Measures
+		lineageTag: 5080f324-8947-4aae-b96a-a04093428a02
+
+	measure 'ExpenseRatio Value' = SELECTEDVALUE('ExpenseRatio'[ExpenseRatio], 0.08)
+		formatString: #,0.00%;-#,0.00%;#,0.00%
+		displayFolder: Profitability Measures
+		lineageTag: ed4e1d0f-f3c2-40c3-b9eb-378fad225362
+
+	column Value
+		isHidden
+		formatString: 0
+		lineageTag: 01bf4a90-1444-4f8e-bbfd-4d34e188a850
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Value]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition _measures = calculated
+		mode: import
+		source = {1}
+
+	annotation PBI_Id = 504ed0bb5ebf42cf89ee6ac4b400acb3
+
