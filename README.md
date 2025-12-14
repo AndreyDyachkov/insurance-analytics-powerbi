@@ -138,9 +138,9 @@ These features enable easy migration between development, test, and production e
 
 ## 🚀 How to Use
 
-1. Open insurance_dashboards_v2.0.pdf
-2. For full functionality dowload and open insurance_dashboards_v2.0.pbix
-3. List of DAX measures: _measures.tmdl
+1. Open [`insurance_dashboards_v2.0.pdf`](insurance_dashboards_v2.0.pdf)
+2. For full functionality dowload and open [`insurance_dashboards_v2.0.pbix`](insurance_dashboards_v2.0.pbix)
+3. List of DAX measures:  [`_measures.tmdl`](_measures.tmdl)
 
 ---
 ## 📌 Disclaimer
