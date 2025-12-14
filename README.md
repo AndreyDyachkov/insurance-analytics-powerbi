@@ -67,6 +67,8 @@ All dashboards support interactive filtering and drill-downs by **time, region, 
   * Plan fact table at a different granularity
   * Shared dimensions (Date, Product, Customer, Claim Status)
 
+<img src="PowerBI_model_schema.png" width="800">
+
 * **Connectivity**:
 
   * Import mode for dimension tables and Excel data
