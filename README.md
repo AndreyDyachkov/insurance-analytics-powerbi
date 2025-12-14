@@ -17,14 +17,28 @@ This repository contains an end-to-end **Insurance Analytics Project** built in 
 
 ## 📊 Dashboards & Analytics
 
-The Power BI report includes multiple analytical pages, such as:
+The Power BI report includes the following analytical pages:
 
-* **Portfolio Performance Overview** – executive summary of key KPIs
-* **Premium & Revenue Analytics** – GPW, GPE, trends, and mix analysis
-* **Claims & Losses Analytics** – frequency, severity, RBNS, and payouts
-* **Loss Ratio & Profitability** – LR, CR, underwriting performance
-* **Actual vs Plan Performance** – budget comparisons and variance analysis
-* **Customer & Product Insights** – segmentation, CLV (LTV), and cross-sell views
+* **Premium & Revenue Analytics** – Gross Premium Written (GPW) analysis:
+    *  GPW by Line Of Business (LOB), Product, Region
+    *  Year-to-Date (YTD), Quarter-to-Date (QTD), and Month-to-Date(MTD) GPW
+    *  Actual vs Budget vs Previous Year (PY) GPW, Year-over-Year(YoY) GPW 
+* **Claims & Losses Analytics**
+    * Claim Frequency, Severity (Average Claim Amount)
+    * Reported But Not Settled (RBNS) and Paid Losses
+    * Claim Status
+* **Profitability** – Financial metrics:
+    * Combined Ratio (CR), Loss Ratio (LR)
+    * Commission Rate, Expense Ratio
+    * Gross Premium Earned (GPE), Losses
+* **Customer Insights**
+    *  Age distribution
+    *  Active customers and Premium in Force by LOB and Product and Region 
+    *  Active customers and Premium in Force by Region on the map 
+    *  Customer Lifetime Value (CLV/LTV)
+    *  Cross-selling metrics: Average Number of LOBs per Customer, Average Number of Products per Customer
+* * **LOB & Product Performance** – segmentation, CLV (LTV), and cross-sell views
+* * **Customer & Product Insights** – segmentation, CLV (LTV), and cross-sell views
 
 All dashboards support interactive filtering and drill-downs by **time, region, product, and line of business**.
 
