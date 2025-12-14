@@ -1,2 +1,159 @@
-# insurance-analytics-powerbi
-Power BI insurance analytics project showcasing data modeling, DAX, performance optimization, KPIs, and Actual vs Plan analysis.
+# Insurance Analytics in Power BI
+
+## 📌 Project Overview
+
+This repository contains an end-to-end **Insurance Analytics Project** built in **Power BI**, designed to demonstrate professional data modelling, optimisation, and dashboarding techniques commonly used in enterprise BI environments. The project delivers actionable insights across premiums, claims, losses, customers, products, lines of business (LOBs), and regional performance. The solution combines actual insurance data with planning (budget) data to support **Actual vs Plan** analysis.
+
+---
+
+## 🎯 Key Objectives
+
+* Provide a comprehensive view of insurance portfolio performance
+* Track core insurance KPIs and profitability metrics
+* Demonstrate scalable and production-ready Power BI modelling
+* Showcase optimisation, governance, and usability best practices
+
+---
+
+## 📊 Dashboards & Analytics
+
+The Power BI report includes multiple analytical pages, such as:
+
+* **Portfolio Performance Overview** – executive summary of key KPIs
+* **Premium & Revenue Analytics** – GPW, GPE, trends, and mix analysis
+* **Claims & Losses Analytics** – frequency, severity, RBNS, and payouts
+* **Loss Ratio & Profitability** – LR, CR, underwriting performance
+* **Actual vs Plan Performance** – budget comparisons and variance analysis
+* **Customer & Product Insights** – segmentation, CLV (LTV), and cross-sell views
+
+All dashboards support interactive filtering and drill-downs by **time, region, product, and line of business**.
+
+---
+
+## 📈 Key KPIs
+
+* Gross Written Premium (GPW)
+* Gross Premium Earned (GPE)
+* Loss Ratio (LR)
+* Combined Ratio (CR)
+* Claims Frequency & Severity
+* Reported But Not Settled (RBNS)
+* Underwriting Profit
+* Customer Lifetime Value (CLV / LTV)
+* Actual vs Plan Variance & Achievement
+
+---
+
+## 🧱 Data Model
+
+* **Source Systems**:
+
+  * PostgreSQL insurance data mart (policies & claims)
+  * Excel budget / plan table
+
+* **Schema Design**:
+
+  * Star schema
+  * Fact tables: Policies, Claims
+  * Plan fact table at a different granularity
+  * Shared dimensions (Date, Product, Customer, Region, LOB)
+
+* **Connectivity**:
+
+  * Import mode for dimension tables and Excel data
+  * DirectQuery mode for fact tables
+
+---
+
+## ⚙️ Optimisation Techniques
+
+* Aggregation tables for fact data (`AggPolicies`, `AggClaims`)
+* Conversion from snowflake to star schema
+* Removal of unnecessary columns
+* Custom date tables and disabled auto date/time
+* Dedicated DAX data tables for policies and claims
+
+---
+
+## 🧮 DAX & Modelling Features
+
+* Dedicated `_measures` table for all KPIs
+* Display folders for logical organisation
+* Advanced time intelligence (YTD, PY, YoY)
+* Calculated columns:
+
+  * Customer age with decade-based groupings (histograms)
+  * Customer geographic location for map visuals
+* Hierarchies for smooth drill-down analysis
+
+---
+
+## 🔐 Security & Governance
+
+* Row-Level Security (RLS) by line of business:
+
+  * Health & Travel
+  * Motor & Home
+* Hidden technical columns to improve report usability
+
+---
+
+## 🔧 Parameters & Production Readiness
+
+* Power Query parameters:
+
+  * `ServerName`
+  * `DatabaseName`
+* Power BI parameters:
+
+  * `CommissionRate`
+  * `ExpenseRatio`
+
+These features enable easy migration between development, test, and production environments.
+
+---
+
+## 🛠 Tech Stack
+
+* **Power BI Desktop** (data modelling, DAX, dashboard design)
+* **DAX** (KPIs, calculations, time intelligence)
+* **Power Query (M)** (ETL, parameterisation, optimisation)
+* **PostgreSQL** (insurance data mart)
+* **Excel** (budget / plan data)
+* **Import & DirectQuery modes**
+* **Star Schema & Aggregation Tables**
+* **Row-Level Security (RLS)**
+
+---
+
+## 📁 Repository Structure
+
+```
+├── data/               # Sample or schema files (if applicable)
+├── dax/                # DAX measures and calculation logic
+├── powerbi/            # Power BI (.pbix) file
+├── docs/               # Screenshots or documentation
+└── README.md           # Project documentation
+```
+
+---
+
+## 🚀 How to Use
+
+1. Update Power Query parameters (`ServerName`, `DatabaseName`)
+2. Ensure PostgreSQL and Excel sources are accessible
+3. Open the `.pbix` file in Power BI Desktop
+4. Refresh data and explore dashboards
+
+---
+
+## 👤 Author
+
+**Andrei Diachkov**
+Data Analyst | Business Intelligence | Insurance Analytics
+
+---
+
+## 📌 Disclaimer
+
+All data used in this project is **simulated** and created for **demonstration and portfolio purposes only**.
