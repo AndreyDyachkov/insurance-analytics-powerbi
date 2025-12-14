@@ -2,7 +2,7 @@
 
 ## 📌 Project Overview
 
-This repository contains an end-to-end **Insurance Analytics Project** built in **Power BI**, designed to demonstrate professional data modelling, optimisation, and dashboarding techniques commonly used in enterprise BI environments. The project delivers actionable insights across premiums, claims, losses, customers, products, lines of business (LOBs), and regional performance. The solution combines actual insurance data with planning (budget) data to support **Actual vs Plan** analysis.
+This repository contains an end-to-end Insurance Analytics Project built in Power BI, designed to demonstrate professional **data modelling**, **optimisation**, and **dashboarding techniques** commonly used in enterprise BI environments. The project delivers actionable insights across **premiums**, **claims**, **losses**, **customers**, **products**, **lines of business (LOBs)**, and **regional performance**. The solution combines actual insurance data with planning (budget) data to support **Actual vs Plan** analysis.
 
 ---
 
@@ -37,8 +37,17 @@ The Power BI report includes the following analytical pages:
     *  Active customers and Premium in Force by Region on the map 
     *  Customer Lifetime Value (CLV/LTV)
     *  Cross-selling metrics: Average Number of LOBs per Customer, Average Number of Products per Customer
-* * **LOB & Product Performance** – segmentation, CLV (LTV), and cross-sell views
-* * **Customer & Product Insights** – segmentation, CLV (LTV), and cross-sell views
+* **LOB & Product Performance**
+  * GPW, GPE by LOB and Product
+  * Claim Frequency, Severity by LOB and Product
+  * GPE, Paid Losses, RBNS by LOB and Product
+  * CR, LR, Commission Rate, Expense Ration by LOB and Product
+  * GPE vs Loss by Product over years (animation)
+* **Regional Performance**
+   *  GPW by Region, LOB and Product Heatmap
+   *  CR  by Region, LOB and Product Heatmap
+   *  Top regions by GPW, LTV
+   *  Active policies (% of Total) by Region
 
 All dashboards support interactive filtering and drill-downs by **time, region, product, and line of business**.
 
