@@ -2,7 +2,8 @@
 
 ## 📌 Project Overview
 
-This repository contains an end-to-end Insurance Analytics Project built in Power BI, designed to demonstrate professional **data modelling**, **optimisation**, and **dashboarding techniques** commonly used in enterprise BI environments. The project delivers actionable insights across **premiums**, **claims**, **losses**, **customers**, **products**, **lines of business (LOBs)**, and **regional performance**. The solution combines actual insurance data with planning (budget) data to support **Actual vs Plan** analysis.
+This repository contains an end-to-end Insurance Analytics Project built in Power BI, designed to demonstrate professional **data modelling**, **optimisation**, and **dashboarding techniques** commonly used in enterprise BI environments. The project delivers actionable insights across **premiums**, **claims**, **losses**, **customers**, **products**, **lines of business (LOBs)**, and **regional performance**. The solution combines actual insurance data with planning (budget) data to support **Actual vs Plan** analysis.   
+This project is provided in Power BI Project (PBIP) format to support version control and enterprise BI workflows. Report and semantic model are stored separately for maintainability and collaboration.  No sensitive data or credentials are included.
 
 ---
 
@@ -139,7 +140,7 @@ These features enable easy migration between development, test, and production e
 ## 🚀 How to Use
 
 1. Open [`insurance_dashboards_v2.0.pdf`](insurance_dashboards_v2.0.pdf)
-2. For full functionality dowload and open [`insurance_dashboards_v2.0.pbix`](insurance_dashboards_v2.0.pbix)
+2. For full functionality clone or download the repository and open the .pbip file from the /PBIP folder using Power BI Desktop or download and open [`insurance_dashboards_v2.0.pbix`](insurance_dashboards_v2.0.pbix)
 3. List of DAX measures:  [`_measures.tmdl`](_measures.tmdl)
 
 ---
