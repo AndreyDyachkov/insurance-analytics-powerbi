@@ -1,0 +1,7 @@
+role 'Health & Travel'
+	modelPermission: read
+
+	tablePermission DimProduct = [policy_type_name] IN {"Health","Travel"}
+
+	annotation PBI_Id = 90d0a3279efc4b5fbbe42ccc6c1f782a
+

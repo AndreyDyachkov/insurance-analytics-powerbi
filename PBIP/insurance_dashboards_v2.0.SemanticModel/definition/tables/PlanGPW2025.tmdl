@@ -1,0 +1,48 @@
+table PlanGPW2025
+	lineageTag: f3ca665a-ba75-4722-85e2-b0e940920e04
+
+	column product_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 55d64205-a43b-4cfa-b0b5-03d690d8e9da
+		summarizeBy: none
+		sourceColumn: product_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column month
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 976732c0-a35e-401b-877e-83d0ce65240d
+		summarizeBy: none
+		sourceColumn: month
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'GPW, plan'
+		dataType: int64
+		formatString: 0
+		lineageTag: f4afe6d7-dc81-420a-8eff-23940e6dabff
+		summarizeBy: sum
+		sourceColumn: GPW, plan
+
+		annotation SummarizationSetBy = Automatic
+
+	partition PlanGPW2025 = m
+		mode: import
+		queryGroup: 'Budget tables'
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\Andrew\OneDrive\Documents\portfolio\PowerBI_insurance_portfolio_project\data\GPW_budget_2025.xlsx"), null, true),
+				    Sheet1_Sheet = Source{[Item="Sheet1",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Sheet1_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"product_id", Int64.Type}, {"month", type date}, {"GPW, plan", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

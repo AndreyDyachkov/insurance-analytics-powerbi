@@ -1,0 +1,24 @@
+table CommissionRate
+	isHidden
+	lineageTag: 8d66415d-28bb-4949-b9a4-04e58580e84c
+
+	column CommissionRate
+		isHidden
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 689433a5-326c-4bc6-b47e-af781af51809
+		summarizeBy: none
+		sourceColumn: [Value]
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 0
+				}
+
+		annotation SummarizationSetBy = User
+
+	partition CommissionRate = calculated
+		mode: import
+		source = GENERATESERIES(CURRENCY(0), CURRENCY(0.25), CURRENCY(0.05))
+
+	annotation PBI_Id = 103aad975e484e4dbb82e7f4cd4798e0
+

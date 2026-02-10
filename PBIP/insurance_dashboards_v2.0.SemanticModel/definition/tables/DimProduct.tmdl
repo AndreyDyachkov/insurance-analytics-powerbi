@@ -1,0 +1,59 @@
+table DimProduct
+	lineageTag: 27db0a56-235b-43d4-ab0c-2f169d653449
+
+	column product_name
+		dataType: string
+		isNullable: false
+		sourceProviderType: nvarchar(max)
+		lineageTag: 9fbc7689-c5aa-48e1-af88-1dc0858fe728
+		summarizeBy: none
+		sourceColumn: product_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column policy_type_name
+		dataType: string
+		lineageTag: f0d49813-2e4c-47c5-9498-bede07c8a953
+		summarizeBy: none
+		sourceColumn: policy_type_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 37982180-bb38-4ad8-bd65-9f99380823cb
+		summarizeBy: none
+		sourceColumn: product_id
+
+		annotation SummarizationSetBy = Automatic
+
+	hierarchy LoB-product
+		lineageTag: 85d90508-3ecd-4796-955d-1f932a9dffd9
+
+		level LOB
+			lineageTag: ecbe4ce6-775c-4283-8fa2-f5cef9fb0a14
+			column: policy_type_name
+
+		level Product
+			lineageTag: ff97bef3-b3c5-49ec-be31-b30137f75936
+			column: product_name
+
+	partition DimProduct = m
+		mode: import
+		queryGroup: 'Dimension tables'
+		source =
+				let
+				    Source = PostgreSQL.Database(ServerName, DataBaseName),
+				    public_dimproduct = Source{[Schema="public",Item="dimproduct"]}[Data],
+				    #"Removed Other Columns" = Table.SelectColumns(public_dimproduct,{"product_id", "policy_type_id", "product_name"}),
+				    #"Merged Queries" = Table.NestedJoin(#"Removed Other Columns", {"policy_type_id"}, DimPolicyType, {"policy_type_id"}, "DimPolicyType", JoinKind.LeftOuter),
+				    #"Expanded DimPolicyType" = Table.ExpandTableColumn(#"Merged Queries", "DimPolicyType", {"policy_type_name"}, {"policy_type_name"}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Expanded DimPolicyType",{"policy_type_id"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

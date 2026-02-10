@@ -1,0 +1,24 @@
+table ExpenseRatio
+	isHidden
+	lineageTag: a339fc2c-821a-4c51-9233-0e1aee4ea812
+
+	column ExpenseRatio
+		isHidden
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 5637730a-3be1-46fa-973c-b3da8f1aaea4
+		summarizeBy: none
+		sourceColumn: [Value]
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 0
+				}
+
+		annotation SummarizationSetBy = User
+
+	partition ExpenseRatio = calculated
+		mode: import
+		source = GENERATESERIES(CURRENCY(0), CURRENCY(0.3), CURRENCY(0.05))
+
+	annotation PBI_Id = 31cdd879876e449ca0ba0014162db898
+

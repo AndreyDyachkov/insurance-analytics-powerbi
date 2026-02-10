@@ -1,0 +1,98 @@
+table FactPolicies
+	lineageTag: 725c2290-2bdc-4b1c-9e8c-738900dd18b7
+
+	column policy_id
+		dataType: int64
+		isNullable: false
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 112a387c-6497-4709-aefb-ae850f1d1f4f
+		summarizeBy: none
+		sourceColumn: policy_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_id
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 8cfc7d8a-1230-4598-9783-317607e33f42
+		summarizeBy: none
+		sourceColumn: customer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_id
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: eb5989bc-61e7-4db2-bab9-a2e9d1167a7f
+		summarizeBy: none
+		sourceColumn: product_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column start_date
+		dataType: dateTime
+		isNullable: false
+		formatString: Short Date
+		sourceProviderType: date
+		lineageTag: fa49afe1-0ca6-407f-bdd3-b3d140216826
+		summarizeBy: none
+		sourceColumn: start_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column end_date
+		dataType: dateTime
+		isNullable: false
+		formatString: Short Date
+		sourceProviderType: date
+		lineageTag: 802c1501-fb47-4169-8f07-c3cc65edc716
+		summarizeBy: none
+		sourceColumn: end_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column premium_amount
+		dataType: double
+		sourceProviderType: decimal
+		lineageTag: fdf7ad5a-7037-4e97-ba51-c29c1f180f6d
+		summarizeBy: sum
+		sourceColumn: premium_amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column coverage_amount
+		dataType: double
+		sourceProviderType: decimal
+		lineageTag: a8beb9e3-b6cd-4d57-859b-01832ffb01aa
+		summarizeBy: sum
+		sourceColumn: coverage_amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition FactPolicies = m
+		mode: dual
+		queryGroup: 'Fact tables'
+		source =
+				let
+				    Source = PostgreSQL.Database(ServerName, DataBaseName),
+				    public_factpolicies = Source{[Schema="public",Item="factpolicies"]}[Data],
+				    #"Removed Other Columns" = Table.SelectColumns(public_factpolicies,{"policy_id", "customer_id", "product_id", "policy_number", "start_date", "end_date", "premium_amount", "coverage_amount"}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Removed Other Columns",{"policy_number"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

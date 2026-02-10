@@ -1,0 +1,96 @@
+table AggPolicies
+	isHidden
+	lineageTag: a17f72e3-a70e-48d1-bc89-548878f3fb12
+
+	column product_id
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 75fbd4be-cb32-48e2-829b-d5b5f3e4ab83
+		summarizeBy: sum
+		sourceColumn: product_id
+
+		alternateOf
+			baseColumn: FactPolicies.product_id
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column start_month
+		dataType: dateTime
+		isHidden
+		formatString: Short Date
+		lineageTag: 8b674b9d-ee09-49b6-8035-6dfd36c4825b
+		summarizeBy: none
+		sourceColumn: start_month
+
+		alternateOf
+			baseColumn: FactPolicies.start_date
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column end_month
+		dataType: dateTime
+		isHidden
+		formatString: General Date
+		lineageTag: d032a28a-65c9-43fb-b4a2-0ea836f1fce4
+		summarizeBy: none
+		sourceColumn: end_month
+
+		alternateOf
+			baseColumn: FactPolicies.end_date
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_premium
+		dataType: double
+		isHidden
+		formatString: #,0.00
+		lineageTag: 766e0f0b-b3af-4949-8849-2b10a2614bfb
+		summarizeBy: sum
+		sourceColumn: total_premium
+
+		alternateOf
+			summarization: sum
+			baseColumn: FactPolicies.premium_amount
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_coverage
+		dataType: double
+		isHidden
+		formatString: #,0.00
+		lineageTag: a343e17a-1064-4ebb-84fd-3169e6243fe0
+		summarizeBy: sum
+		sourceColumn: total_coverage
+
+		alternateOf
+			summarization: sum
+			baseColumn: FactPolicies.coverage_amount
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition AggPolicies = m
+		mode: import
+		queryGroup: 'Aggregation tables'
+		source =
+				let
+				    Source = Value.NativeQuery(PostgreSQL.Database(ServerName, DataBaseName), "SELECT#(lf)    product_id,#(lf)    DATE_TRUNC('month',start_date) AS start_month, #(lf)    DATE_TRUNC('month',end_date) AS end_month,#(lf)    SUM(premium_amount) AS total_premium,#(lf)    SUM(coverage_amount) AS total_coverage#(lf)FROM FactPolicies#(lf)GROUP BY #(lf)    product_id,#(lf)    DATE_TRUNC('month',start_date), #(lf)    DATE_TRUNC('month',end_date)", null, [EnableFolding=true])
+				in
+				    Source
+
+	changedProperty = IsHidden
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

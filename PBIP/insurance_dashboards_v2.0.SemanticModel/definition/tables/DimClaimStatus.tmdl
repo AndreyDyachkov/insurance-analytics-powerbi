@@ -1,0 +1,42 @@
+table DimClaimStatus
+	lineageTag: 1d894b18-06ed-4c6b-aa3f-5601c3189405
+
+	column claim_status_id
+		dataType: int64
+		isNullable: false
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 2c1c9a24-36da-4bae-b8e0-5f141be6d9a4
+		summarizeBy: none
+		sourceColumn: claim_status_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column status_name
+		dataType: string
+		isNullable: false
+		sourceProviderType: nvarchar(max)
+		lineageTag: e2c03502-959f-44bc-9797-7c7a76d6aebf
+		summarizeBy: none
+		sourceColumn: status_name
+		sortByColumn: claim_status_id
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimClaimStatus = m
+		mode: import
+		queryGroup: 'Dimension tables'
+		source =
+				let
+				    Source = PostgreSQL.Database(ServerName, DataBaseName),
+				    public_dimclaimstatus = Source{[Schema="public",Item="dimclaimstatus"]}[Data],
+				    #"Removed Other Columns" = Table.SelectColumns(public_dimclaimstatus,{"claim_status_id", "status_name"})
+				in
+				    #"Removed Other Columns"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

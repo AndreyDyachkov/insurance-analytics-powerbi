@@ -1,0 +1,27 @@
+table 'Target CR'
+	lineageTag: d6fb8b16-966b-4765-ae4a-198e8100ed71
+
+	measure 'Target CR Value' = SELECTEDVALUE('Target CR'[Target CR], 1)
+		formatString: #,0.00%;-#,0.00%;#,0.00%
+		lineageTag: efc6e218-f7d6-4db3-819f-de0bd67f2fc2
+
+	column 'Target CR'
+		lineageTag: da6a24be-4fc5-4e27-a5ce-78ed032a87c4
+		summarizeBy: none
+		sourceColumn: [Value]
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 0
+				}
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'Target CR' = calculated
+		mode: import
+		source = GENERATESERIES(CURRENCY(0.9), CURRENCY(1.2), CURRENCY(0.05))
+
+	annotation PBI_Id = e310138920d54f4a9f98931d10dbdcc2
+

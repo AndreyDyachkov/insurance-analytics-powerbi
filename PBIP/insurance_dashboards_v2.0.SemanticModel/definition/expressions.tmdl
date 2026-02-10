@@ -1,0 +1,46 @@
+expression DimPolicyType =
+		let
+		    Source = PostgreSQL.Database(ServerName, DataBaseName),
+		    public_dimpolicytype = Source{[Schema="public",Item="dimpolicytype"]}[Data],
+		    #"Removed Other Columns" = Table.SelectColumns(public_dimpolicytype,{"policy_type_name", "policy_type_id"})
+		in
+		    #"Removed Other Columns"
+	lineageTag: 4650febc-1f2b-46c3-b1b8-d1d0efaf5749
+	queryGroup: 'Hidden tables'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression DimRegion =
+		let
+		    Source = PostgreSQL.Database(ServerName, DataBaseName),
+		    public_dimregion = Source{[Schema="public",Item="dimregion"]}[Data],
+		    #"Removed Other Columns" = Table.SelectColumns(public_dimregion,{"region_id", "region_name"})
+		in
+		    #"Removed Other Columns"
+	lineageTag: 845421bd-4fd1-4308-8309-7cf557450765
+	queryGroup: 'Hidden tables'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+/// ServerName
+expression ServerName = "localhost" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 2fa51628-f0a5-4634-a900-b3768ca23d44
+	queryGroup: Parameters
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Text
+
+/// DataBaseName
+expression DataBaseName = "insurance_datamart_2" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 55c3c150-d0b5-495b-b04f-5ec9e8554521
+	queryGroup: Parameters
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Text
+

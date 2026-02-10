@@ -1,0 +1,7 @@
+role 'Motor & Home'
+	modelPermission: read
+
+	tablePermission DimProduct = [policy_type_name] IN {"Motor","Home"}
+
+	annotation PBI_Id = d173e0c4e89247adaed309a5ebd7608c
+

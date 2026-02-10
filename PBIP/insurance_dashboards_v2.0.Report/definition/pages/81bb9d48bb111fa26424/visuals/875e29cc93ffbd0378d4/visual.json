@@ -1,0 +1,197 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "875e29cc93ffbd0378d4",
+  "position": {
+    "x": 22.892273298868243,
+    "y": 443.12900457094958,
+    "z": 7000,
+    "height": 253.45016866604126,
+    "width": 1234.5475957603944,
+    "tabOrder": 7000
+  },
+  "visual": {
+    "visualType": "clusteredColumnChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "HierarchyLevel": {
+                  "Expression": {
+                    "Hierarchy": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PolicyDate"
+                        }
+                      },
+                      "Hierarchy": "year-quarter-month-day"
+                    }
+                  },
+                  "Level": "Quarter"
+                }
+              },
+              "queryRef": "PolicyDate.year-quarter-month-day.quarter",
+              "nativeQueryRef": "year-quarter-month-day quarter",
+              "active": true
+            },
+            {
+              "field": {
+                "HierarchyLevel": {
+                  "Expression": {
+                    "Hierarchy": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "PolicyDate"
+                        }
+                      },
+                      "Hierarchy": "year-quarter-month-day"
+                    }
+                  },
+                  "Level": "Month"
+                }
+              },
+              "queryRef": "PolicyDate.year-quarter-month-day.month_name_short",
+              "nativeQueryRef": "year-quarter-month-day month_name_short",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_measures"
+                    }
+                  },
+                  "Property": "GPW PY"
+                }
+              },
+              "queryRef": "_measures.GPW PY",
+              "nativeQueryRef": "GPW PY"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_measures"
+                    }
+                  },
+                  "Property": "Budget GPW"
+                }
+              },
+              "queryRef": "_measures.Budget GPW",
+              "nativeQueryRef": "Budget GPW"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_measures"
+                    }
+                  },
+                  "Property": "GPW"
+                }
+              },
+              "queryRef": "_measures.GPW",
+              "nativeQueryRef": "GPW"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "categoryAxis": [
+        {
+          "properties": {
+            "showAxisTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "valueAxis": [
+        {
+          "properties": {
+            "showAxisTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "labels": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "dropShadow": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "2a5eb4a76a4dab91f6f5",
+        "field": {
+          "HierarchyLevel": {
+            "Expression": {
+              "Hierarchy": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "PolicyDate"
+                  }
+                },
+                "Hierarchy": "year-quarter-month-day"
+              }
+            },
+            "Level": "Year"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "User"
+      }
+    ]
+  }
+}

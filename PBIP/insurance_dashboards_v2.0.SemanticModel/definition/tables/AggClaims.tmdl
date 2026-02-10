@@ -1,0 +1,141 @@
+table AggClaims
+	isHidden
+	lineageTag: 9f297045-879c-4717-bb09-ccad7e2c2b9e
+
+	column policy_id
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 8f0b61ee-6176-43ee-8132-1bd331ff3d10
+		summarizeBy: sum
+		sourceColumn: policy_id
+
+		alternateOf
+			baseColumn: FactClaims.policy_id
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column claim_status_id
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 633e3549-b618-429e-b151-33b472f69b49
+		summarizeBy: sum
+		sourceColumn: claim_status_id
+
+		alternateOf
+			baseColumn: FactClaims.claim_status_id
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column occurred_month
+		dataType: dateTime
+		isHidden
+		formatString: Short Date
+		lineageTag: 06804c01-b614-4e22-9be9-72741750575d
+		summarizeBy: none
+		sourceColumn: occurred_month
+
+		alternateOf
+			baseColumn: FactClaims.occurred_date
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column reported_month
+		dataType: dateTime
+		isHidden
+		formatString: Short Date
+		lineageTag: 49137d21-0608-4d31-9033-4613db7f8c5f
+		summarizeBy: none
+		sourceColumn: reported_month
+
+		alternateOf
+			baseColumn: FactClaims.reported_date
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column settled_month
+		dataType: dateTime
+		isHidden
+		formatString: Short Date
+		lineageTag: 4f731064-31d8-4e16-bcdc-6995bd39491a
+		summarizeBy: none
+		sourceColumn: settled_month
+
+		alternateOf
+			baseColumn: FactClaims.settled_date
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column paid_month
+		dataType: dateTime
+		isHidden
+		formatString: Short Date
+		lineageTag: 2345fb6a-321a-4670-9745-8112f22bda30
+		summarizeBy: none
+		sourceColumn: paid_month
+
+		alternateOf
+			baseColumn: FactClaims.paid_date
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_claim_amount
+		dataType: double
+		isHidden
+		formatString: #,0.00
+		lineageTag: 992c0a04-8dfe-40b0-b0bd-2990ff98602e
+		summarizeBy: sum
+		sourceColumn: total_claim_amount
+
+		alternateOf
+			summarization: sum
+			baseColumn: FactClaims.claim_amount
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_payout_amount
+		dataType: double
+		isHidden
+		formatString: #,0.00
+		lineageTag: 5464009d-56bb-4d59-8e7e-50e1b1325f2a
+		summarizeBy: sum
+		sourceColumn: total_payout_amount
+
+		alternateOf
+			summarization: sum
+			baseColumn: FactClaims.payout_amount
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition AggClaims = m
+		mode: import
+		queryGroup: 'Aggregation tables'
+		source =
+				let
+				    Source = Value.NativeQuery(PostgreSQL.Database(ServerName, DataBaseName), "SELECT#(lf)    policy_id,#(lf)    claim_status_id,#(lf)    DATE_TRUNC('month',occurred_date) AS occurred_month, #(lf)    DATE_TRUNC('month',reported_date) AS reported_month,#(lf)    DATE_TRUNC('month',settled_date) AS settled_month,#(lf)    DATE_TRUNC('month',paid_date) AS paid_month,#(lf)    SUM(claim_amount) AS total_claim_amount,#(lf)    SUM(payout_amount) AS total_payout_amount#(lf)FROM FactClaims#(lf)GROUP BY #(lf)    policy_id,#(lf)    claim_status_id,#(lf)    DATE_TRUNC('month',occurred_date), #(lf)    DATE_TRUNC('month',reported_date),#(lf)    DATE_TRUNC('month',settled_date),#(lf)    DATE_TRUNC('month',paid_date)", null, [EnableFolding=true])
+				in
+				    Source
+
+	changedProperty = IsHidden
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

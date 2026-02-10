@@ -1,0 +1,40 @@
+createOrReplace
+
+	ref table _measures
+
+		measure 'GPE (Gross Premium Earned)' = ```
+				
+				    -- Get reporting period boundaries
+				    VAR ReportStart = FIRSTDATE('Date'[Date])  
+				    VAR ReportEnd = LASTDATE('Date'[Date])
+				    VAR RelevantPolicies = 
+				        CALCULATETABLE(
+				            FactPolicies,
+				            FactPolicies[start_date] <= ReportEnd,
+				            FactPolicies[end_date] >= ReportStart
+				        )
+				    RETURN
+				
+				    -- Calculate earned premium for each relevant policy 
+				    SUMX(
+				        RelevantPolicies,
+				        -- Policy-specific variables (calculated per row)
+				        VAR PolicyStart = FactPolicies[start_date]
+				        VAR PolicyEnd = FactPolicies[end_date]
+				        VAR PremiumAmount = FactPolicies[premium_amount]
+				        VAR PolicyDays = DATEDIFF(PolicyStart, PolicyEnd, DAY) + 1
+				        
+				        -- Calculate overlap between policy and reporting periods
+				        VAR EarnedStart = MAX(PolicyStart, ReportStart)
+				        VAR EarnedEnd = MIN(PolicyEnd, ReportEnd)
+				        VAR EarnedDays = DATEDIFF(EarnedStart, EarnedEnd, DAY) + 1 
+				                
+				        -- Return earned premium for this policy
+				        RETURN DIVIDE(PremiumAmount * EarnedDays, PolicyDays, 0)
+				    )
+				```
+			displayFolder: Premium Measures
+			lineageTag: c1bd6e55-3a88-4f53-a419-cdd1fc6f9614
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+

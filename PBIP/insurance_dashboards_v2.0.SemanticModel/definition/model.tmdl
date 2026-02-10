@@ -1,0 +1,58 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-GB
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+queryGroup 'Fact tables'
+
+	annotation PBI_QueryGroupOrder = 1
+
+queryGroup 'Dimension tables'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 'Hidden tables'
+
+	annotation PBI_QueryGroupOrder = 4
+
+queryGroup 'Aggregation tables'
+
+	annotation PBI_QueryGroupOrder = 2
+
+queryGroup Parameters
+
+	annotation PBI_QueryGroupOrder = 3
+
+queryGroup 'Budget tables'
+
+	annotation PBI_QueryGroupOrder = 5
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_QueryOrder = ["DimProduct","DimCustomer","DimClaimStatus","DimPolicyType","DimRegion","FactPolicies","FactClaims","AggPolicies","AggClaims","ServerName","DataBaseName","PlanGPW2025"]
+
+annotation PBI_ProTooling = ["TMDLView_Desktop","DaxQueryView_Desktop","DevMode"]
+
+ref table DimClaimStatus
+ref table DimCustomer
+ref table DimProduct
+ref table FactClaims
+ref table FactPolicies
+ref table Date
+ref table PolicyDate
+ref table AggPolicies
+ref table AggClaims
+ref table CommissionRate
+ref table ExpenseRatio
+ref table _measures
+ref table PlanGPW2025
+ref table 'Target CR'
+
+ref role 'Health & Travel'
+ref role 'Motor & Home'
+
+ref cultureInfo en-US
+

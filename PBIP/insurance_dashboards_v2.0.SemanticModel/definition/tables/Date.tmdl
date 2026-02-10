@@ -1,0 +1,209 @@
+table Date
+	lineageTag: 9bee8597-1ae1-4507-9b6b-5008627a855d
+
+	column Date
+		formatString: Short Date
+		lineageTag: 59f490e6-8d96-4da7-a2c0-b251cb4d8a5f
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Date]
+
+		annotation SummarizationSetBy = Automatic
+
+	column date_as_integer
+		formatString: 0
+		lineageTag: 3c99e248-309c-46ba-aa48-ff89121bbab5
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [date_as_integer]
+
+		annotation SummarizationSetBy = Automatic
+
+	column year
+		formatString: 0
+		lineageTag: f3a28cb2-88b9-4609-89be-63b8ff73bc48
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [year]
+
+		annotation SummarizationSetBy = Automatic
+
+	column quarter
+		lineageTag: f97b03f5-c127-4908-8d87-822afc3ca5bc
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [quarter]
+
+		annotation SummarizationSetBy = Automatic
+
+	column year_quarter
+		lineageTag: c9d91a2f-22ee-43f5-a540-e4216f3778ab
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [year_quarter]
+
+		annotation SummarizationSetBy = Automatic
+
+	column month_number
+		formatString: 0
+		lineageTag: f6fdc079-0b9c-4d95-8ae6-653bfb00704e
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [month_number]
+
+		annotation SummarizationSetBy = Automatic
+
+	column month_name_short
+		lineageTag: 46f2a1c4-266f-444a-92b6-9c8231bbcfbd
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [month_name_short]
+		sortByColumn: month_number
+
+		annotation SummarizationSetBy = Automatic
+
+	column month_name_long
+		lineageTag: a69e54af-f5d5-4321-bdb4-f629802faa3e
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [month_name_long]
+		sortByColumn: month_number
+
+		annotation SummarizationSetBy = Automatic
+
+	column year_month_number
+		formatString: 0
+		lineageTag: 4e292bfa-9306-4085-aeed-67061bb6e437
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [year_month_number]
+
+		annotation SummarizationSetBy = Automatic
+
+	column year_month_number_text
+		lineageTag: 6fba0c60-835e-43de-a912-9a391e000f8b
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [year_month_number_text]
+		sortByColumn: year_month_number
+
+		annotation SummarizationSetBy = Automatic
+
+	column year_month_name_short
+		lineageTag: 9277353b-8cf9-4b8f-9d5c-2eaf6c1dde63
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [year_month_name_short]
+		sortByColumn: year_month_number
+
+		annotation SummarizationSetBy = Automatic
+
+	column week_number
+		formatString: 0
+		lineageTag: e65ff7a6-1080-493b-83e6-8e802efa2cfe
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [week_number]
+
+		annotation SummarizationSetBy = Automatic
+
+	column year_week_number
+		formatString: 0
+		lineageTag: c335c611-2ee6-460c-b625-20cdfd95681d
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [year_week_number]
+
+		annotation SummarizationSetBy = Automatic
+
+	column day_of_week_number
+		formatString: 0
+		lineageTag: 9b735987-3fc8-4be4-9764-8b6e0e8e6e65
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [day_of_week_number]
+
+		annotation SummarizationSetBy = Automatic
+
+	column day_of_week_name_long
+		lineageTag: 15184d67-34a3-4769-9d54-0493542608a3
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [day_of_week_name_long]
+		sortByColumn: day_of_week_number
+
+		annotation SummarizationSetBy = Automatic
+
+	column day_of_week_name_short
+		lineageTag: 2bfd8bd6-d4a5-4aad-b3a8-2751a822e68e
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [day_of_week_name_short]
+		sortByColumn: day_of_week_number
+
+		annotation SummarizationSetBy = Automatic
+
+	column day
+		formatString: 0
+		lineageTag: 7ca9e2e9-d978-4463-8459-d9ba6f919345
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [day]
+
+		annotation SummarizationSetBy = Automatic
+
+	hierarchy year-quarter-month-day
+		lineageTag: 2d49829a-671d-435a-bb7b-4426f572e122
+
+		level Year
+			lineageTag: c41beffa-dcdc-4459-a9cf-546e8a3f207b
+			column: year
+
+		level Quarter
+			lineageTag: a0d18648-198c-4d24-aa77-b1e1a51bd3dd
+			column: quarter
+
+		level Month
+			lineageTag: fce19b61-e156-4ca7-9988-0773a3bbfa4e
+			column: month_name_short
+
+		level day
+			lineageTag: 76d735c1-ba62-4886-b239-08463e1786c6
+			column: day
+
+	partition Date = calculated
+		mode: import
+		source =
+				
+				ADDCOLUMNS (
+				    CALENDAR ( DATE ( 2022, 1, 1 ), DATE ( 2025, 12, 31 ) ),
+				    // Numeric surrogate key
+				    "date_as_integer",
+				        YEAR ( [Date] ) * 10000 + MONTH ( [Date] ) * 100 + DAY ( [Date] ),
+				    // Year
+				    "year", YEAR ( [Date] ),
+				    // Quarter
+				    "quarter", "Q" & QUARTER ( [Date] ),
+				    "year_quarter",
+				        YEAR ( [Date] ) & "Q" & QUARTER ( [Date] ),
+				    // Month
+				    "month_number", MONTH ( [Date] ),
+				    "month_name_short", FORMAT ( [Date], "mmm" ),
+				    "month_name_long", FORMAT ( [Date], "mmmm" ),
+				    "year_month_number",
+				        YEAR ( [Date] ) * 100 + MONTH ( [Date] ),
+				    "year_month_number_text", FORMAT ( [Date], "YYYY/MM" ),
+				    "year_month_name_short", FORMAT ( [Date], "YYYY/mmm" ),
+				    // Week (starts with Monday)
+				    "week_number", WEEKNUM ( [Date], 2 ),
+				    "year_week_number",
+				        YEAR ( [Date] ) * 100 + WEEKNUM ( [Date], 2 ),
+				    "day_of_week_number", WEEKDAY ( [Date], 2 ),
+				    "day_of_week_name_long", FORMAT ( [Date], "dddd" ),
+				    "day_of_week_name_short", FORMAT ( [Date], "ddd" ),
+				    // Day
+				    "day", DAY ( [Date] )
+				)
+
+	annotation PBI_Id = 95a843fc84634a598ae8e4f71cb94cb9
+

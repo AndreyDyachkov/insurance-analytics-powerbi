@@ -1,0 +1,58 @@
+relationship dbe95372-5960-4a68-afe8-8dadc31158d0
+	fromColumn: FactClaims.claim_status_id
+	toColumn: DimClaimStatus.claim_status_id
+
+	annotation PBI_IsFromSource = FS
+
+relationship 8e403a14-1b45-4f73-9d5e-bb011b2bdfcb
+	fromColumn: FactClaims.policy_id
+	toColumn: FactPolicies.policy_id
+
+	annotation PBI_IsFromSource = FS
+
+relationship 5d9d05aa-8679-f18a-a1d5-1e363b982ca5
+	crossFilteringBehavior: bothDirections
+	fromColumn: FactPolicies.product_id
+	toColumn: DimProduct.product_id
+
+relationship a53fbedf-3667-e0ae-16e7-15f7dae30e25
+	crossFilteringBehavior: bothDirections
+	fromColumn: FactPolicies.customer_id
+	toColumn: DimCustomer.customer_id
+
+relationship 3ce8a07f-2ecc-56ad-9805-16c8f1b58174
+	fromColumn: FactClaims.occurred_date
+	toColumn: Date.Date
+
+relationship 52a6b029-9f9d-deda-1d39-1c780a4a4f37
+	isActive: false
+	fromColumn: FactClaims.reported_date
+	toColumn: Date.Date
+
+relationship 696c6dd4-0073-dc7d-82e2-7beb92c528f6
+	isActive: false
+	fromColumn: FactClaims.settled_date
+	toColumn: Date.Date
+
+relationship 50537244-ecb3-31dd-5aa8-372bfba3a5f7
+	isActive: false
+	fromColumn: FactClaims.paid_date
+	toColumn: Date.Date
+
+relationship 800295df-b5a3-146c-3076-ff587ae444b2
+	fromColumn: FactPolicies.start_date
+	toColumn: PolicyDate.Date
+
+relationship 7d033e8d-17e8-3d33-ee2f-68e9320c9cef
+	isActive: false
+	fromColumn: FactPolicies.end_date
+	toColumn: PolicyDate.Date
+
+relationship 3d161e2e-454b-1d58-67cf-e7e89876fb61
+	fromColumn: PlanGPW2025.month
+	toColumn: PolicyDate.Date
+
+relationship a280c374-fca2-e082-7b41-bda374ad40fb
+	fromColumn: PlanGPW2025.product_id
+	toColumn: DimProduct.product_id
+

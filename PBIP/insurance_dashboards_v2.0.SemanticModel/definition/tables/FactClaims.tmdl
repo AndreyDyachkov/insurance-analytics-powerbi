@@ -1,0 +1,108 @@
+table FactClaims
+	lineageTag: b1dec924-dd2a-429a-b28d-497d6ea8ca18
+
+	column policy_id
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 99333377-f251-457f-b442-13518a9c3f36
+		summarizeBy: none
+		sourceColumn: policy_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column occurred_date
+		dataType: dateTime
+		formatString: Short Date
+		sourceProviderType: date
+		lineageTag: 01067cab-76a3-463e-a36d-3255b2e24a34
+		summarizeBy: none
+		sourceColumn: occurred_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column reported_date
+		dataType: dateTime
+		formatString: Short Date
+		sourceProviderType: date
+		lineageTag: 4d522efc-ecea-442d-9566-917c7d201d03
+		summarizeBy: none
+		sourceColumn: reported_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column settled_date
+		dataType: dateTime
+		formatString: Short Date
+		sourceProviderType: date
+		lineageTag: 7a0b67e3-f3aa-4c4f-93db-17634cb5494e
+		summarizeBy: none
+		sourceColumn: settled_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column paid_date
+		dataType: dateTime
+		formatString: Short Date
+		sourceProviderType: date
+		lineageTag: 50b4e5f9-3d3e-48fb-af84-f4c0ca768643
+		summarizeBy: none
+		sourceColumn: paid_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column claim_amount
+		dataType: double
+		sourceProviderType: decimal
+		lineageTag: aec87bf3-e48b-41c5-932e-8fce0b2e88a2
+		summarizeBy: sum
+		sourceColumn: claim_amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column claim_status_id
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: d92bc8ef-2913-453f-b56b-193de8007dae
+		summarizeBy: none
+		sourceColumn: claim_status_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column payout_amount
+		dataType: double
+		sourceProviderType: decimal
+		lineageTag: 7c1a4c73-0883-401e-83e1-28ff296783e9
+		summarizeBy: sum
+		sourceColumn: payout_amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition FactClaims = m
+		mode: dual
+		queryGroup: 'Fact tables'
+		source =
+				let
+				    Source = PostgreSQL.Database(ServerName, DataBaseName),
+				    public_factclaims = Source{[Schema="public",Item="factclaims"]}[Data],
+				    #"Removed Other Columns" = Table.SelectColumns(public_factclaims,{"policy_id", "occurred_date", "reported_date", "settled_date", "paid_date", "claim_amount", "claim_status_id", "payout_amount"})
+				in
+				    #"Removed Other Columns"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

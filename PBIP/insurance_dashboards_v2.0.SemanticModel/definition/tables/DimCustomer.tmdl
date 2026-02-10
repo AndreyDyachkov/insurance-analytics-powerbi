@@ -1,0 +1,112 @@
+table DimCustomer
+	lineageTag: a3429eba-6123-463f-a52b-4557bfac07b6
+
+	column date_of_birth
+		dataType: dateTime
+		isNullable: false
+		formatString: Short Date
+		sourceProviderType: date
+		lineageTag: 5a332190-13fe-4242-baee-fb2181712571
+		summarizeBy: none
+		sourceColumn: date_of_birth
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column marital_status
+		dataType: string
+		sourceProviderType: nvarchar(max)
+		lineageTag: dfeae4b4-d88f-4a52-bcaf-f34b7eaf6db9
+		summarizeBy: none
+		sourceColumn: marital_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column region_name
+		dataType: string
+		lineageTag: efd3016c-e795-4550-8cb0-b40422452aa6
+		summarizeBy: none
+		sourceColumn: region_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 04cd0440-2a4d-44a1-8dae-d07c4a2ea6fe
+		summarizeBy: none
+		sourceColumn: customer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column location = 'DimCustomer'[region_name] & ", NZ"
+		lineageTag: 29f06366-53bf-40fc-8e0d-8f5f48c2a539
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column age = DATEDIFF('DimCustomer'[date_of_birth],TODAY(),YEAR)
+		formatString: 0
+		lineageTag: cb61626c-6a7f-49d5-a07b-30d83f2f4f28
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation __PBI_SemanticLinks = [{"LinkTarget":{"TableName":"DimCustomer","TableItemName":"age (bins)","ObjectType":4},"LinkType":"UsedInGroup"}]
+
+	column 'age (bins)' =
+			IF(
+				ISBLANK('DimCustomer'[age]),
+				BLANK(),
+				INT('DimCustomer'[age] / 10) * 10
+			)
+		formatString: 0
+		lineageTag: b1833488-31fe-4292-8842-6316ea38e35a
+		summarizeBy: none
+
+		extendedProperty GroupingMetadata =
+				{
+				  "version": 0,
+				  "groupedColumns": [
+				    {
+				      "Column": {
+				        "Expression": {
+				          "SourceRef": {
+				            "Entity": "DimCustomer"
+				          }
+				        },
+				        "Property": "age"
+				      }
+				    }
+				  ],
+				  "binningMetadata": {
+				    "binSize": {
+				      "value": 10.0,
+				      "unit": 0
+				    }
+				  }
+				}
+
+		annotation GroupingDesignState = {"Version":0,"Sources":[{"Name":"d","Entity":"DimCustomer"}],"GroupedColumns":[{"Column":{"Expression":{"SourceRef":{"Source":"d"}},"Property":"age"}}],"BinItem":{"Expression":{"Floor":{"Expression":{"Column":{"Expression":{"SourceRef":{"Source":"d"}},"Property":"age"}},"Size":10.0}}}}
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimCustomer = m
+		mode: import
+		queryGroup: 'Dimension tables'
+		source =
+				let
+				    Source = PostgreSQL.Database(ServerName, DataBaseName),
+				    public_dimcustomer = Source{[Schema="public",Item="dimcustomer"]}[Data],
+				    #"Removed Other Columns" = Table.SelectColumns(public_dimcustomer,{"customer_id", "region_id", "date_of_birth", "marital_status"}),
+				    #"Merged Queries" = Table.NestedJoin(#"Removed Other Columns", {"region_id"}, DimRegion, {"region_id"}, "DimRegion", JoinKind.LeftOuter),
+				    #"Expanded public dimregion" = Table.ExpandTableColumn(#"Merged Queries", "DimRegion", {"region_name"}, {"region_name"}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Expanded public dimregion",{"region_id"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

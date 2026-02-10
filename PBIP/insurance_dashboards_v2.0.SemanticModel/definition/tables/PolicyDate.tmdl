@@ -1,0 +1,179 @@
+table PolicyDate
+	lineageTag: e8508163-c1cd-41f0-a5a4-598c84b3698f
+
+	column Date
+		formatString: Short Date
+		lineageTag: c9bc5815-4db7-4b91-bc4d-a1389f54d530
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Date[Date]
+
+		annotation SummarizationSetBy = Automatic
+
+	column date_as_integer
+		formatString: 0
+		lineageTag: 0a479e95-3a06-43cf-8e63-421093ba6cf7
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: Date[date_as_integer]
+
+		annotation SummarizationSetBy = Automatic
+
+	column year
+		formatString: 0
+		lineageTag: 80d2c4d9-26d9-4699-90ed-10320126b60d
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: Date[year]
+
+		annotation SummarizationSetBy = Automatic
+
+	column quarter
+		lineageTag: 98c9bf59-bb79-4b20-b8c4-10bd9c16b16b
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Date[quarter]
+
+		annotation SummarizationSetBy = Automatic
+
+	column year_quarter
+		lineageTag: effe7f13-02ec-4680-a4b7-35ec9254017f
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Date[year_quarter]
+
+		annotation SummarizationSetBy = Automatic
+
+	column month_number
+		formatString: 0
+		lineageTag: c2a09aad-fe23-4e7b-9b89-0c0bf1b7cdcb
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: Date[month_number]
+
+		annotation SummarizationSetBy = Automatic
+
+	column month_name_short
+		lineageTag: 38c440d3-7ff3-4206-a621-343dd8556424
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Date[month_name_short]
+		sortByColumn: month_number
+
+		annotation SummarizationSetBy = Automatic
+
+	column month_name_long
+		lineageTag: 7e164c4e-c15d-455b-a5b5-3a3397872943
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Date[month_name_long]
+		sortByColumn: month_number
+
+		annotation SummarizationSetBy = Automatic
+
+	column year_month_number
+		formatString: 0
+		lineageTag: a5f59620-514a-430a-9202-c3514a378284
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: Date[year_month_number]
+
+		annotation SummarizationSetBy = Automatic
+
+	column year_month_number_text
+		lineageTag: 96f14205-3215-48f0-aa23-1202d2187f99
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Date[year_month_number_text]
+		sortByColumn: year_month_number
+
+		annotation SummarizationSetBy = Automatic
+
+	column year_month_name_short
+		lineageTag: 7dcd4792-4c9a-47aa-b9bf-70aeca501466
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Date[year_month_name_short]
+		sortByColumn: year_month_number
+
+		annotation SummarizationSetBy = Automatic
+
+	column week_number
+		formatString: 0
+		lineageTag: 009f2037-206d-4e0a-a424-ddd0b86155ed
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: Date[week_number]
+
+		annotation SummarizationSetBy = Automatic
+
+	column year_week_number
+		formatString: 0
+		lineageTag: 68620f8a-3e0d-415d-8763-0ae70a896e66
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: Date[year_week_number]
+
+		annotation SummarizationSetBy = Automatic
+
+	column day_of_week_number
+		formatString: 0
+		lineageTag: a82d116f-63b2-42fa-bcfa-de5d1da4d5f2
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: Date[day_of_week_number]
+
+		annotation SummarizationSetBy = Automatic
+
+	column day_of_week_name_long
+		lineageTag: e58f4731-6566-4b7a-8b7a-4bef62240282
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Date[day_of_week_name_long]
+		sortByColumn: day_of_week_number
+
+		annotation SummarizationSetBy = Automatic
+
+	column day_of_week_name_short
+		lineageTag: fb262a28-5ae0-4a75-bff5-b9d82491dc5f
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Date[day_of_week_name_short]
+		sortByColumn: day_of_week_number
+
+		annotation SummarizationSetBy = Automatic
+
+	column day
+		formatString: 0
+		lineageTag: 56eb6b32-2088-4944-b224-d1b9848c5d7e
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: Date[day]
+
+		annotation SummarizationSetBy = Automatic
+
+	hierarchy year-quarter-month-day
+		lineageTag: cae6cd44-d7da-4657-928b-bb387a5ca400
+
+		level Year
+			lineageTag: 0e9cf23d-4527-41ff-9522-2796992787dc
+			column: year
+
+		level Quarter
+			lineageTag: 50bbf618-d7d7-4f44-ac49-0d385b4e6ff6
+			column: quarter
+
+		level Month
+			lineageTag: 22ff0b98-11c6-49a1-b8ab-281c237ed721
+			column: month_name_short
+
+		level day
+			lineageTag: c08e93af-90a3-4aef-95bd-d174b49b26dd
+			column: day
+
+	partition PolicyDate = calculated
+		mode: import
+		source = 'Date'
+
+	annotation PBI_Id = 0186f2781a714f57a5f2daa929b826a4
+
