@@ -10,6 +10,8 @@ table PolicyDate
 
 		annotation SummarizationSetBy = Automatic
 
+		annotation UnderlyingDateTimeDataType = Date
+
 	column date_as_integer
 		formatString: 0
 		lineageTag: 0a479e95-3a06-43cf-8e63-421093ba6cf7

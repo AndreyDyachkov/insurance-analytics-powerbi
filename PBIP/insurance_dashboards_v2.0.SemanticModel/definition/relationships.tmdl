@@ -11,12 +11,10 @@ relationship 8e403a14-1b45-4f73-9d5e-bb011b2bdfcb
 	annotation PBI_IsFromSource = FS
 
 relationship 5d9d05aa-8679-f18a-a1d5-1e363b982ca5
-	crossFilteringBehavior: bothDirections
 	fromColumn: FactPolicies.product_id
 	toColumn: DimProduct.product_id
 
 relationship a53fbedf-3667-e0ae-16e7-15f7dae30e25
-	crossFilteringBehavior: bothDirections
 	fromColumn: FactPolicies.customer_id
 	toColumn: DimCustomer.customer_id
 
@@ -55,4 +53,12 @@ relationship 3d161e2e-454b-1d58-67cf-e7e89876fb61
 relationship a280c374-fca2-e082-7b41-bda374ad40fb
 	fromColumn: PlanGPW2025.product_id
 	toColumn: DimProduct.product_id
+
+relationship b2887951-faec-96ce-423e-97e010121a96
+	fromColumn: AggPolicies.product_id
+	toColumn: DimProduct.product_id
+
+relationship 77be71c1-33a6-1a0e-2f51-33af2f931f66
+	fromColumn: AggClaims.claim_status_id
+	toColumn: DimClaimStatus.claim_status_id
 

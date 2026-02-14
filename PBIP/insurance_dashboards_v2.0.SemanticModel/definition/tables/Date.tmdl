@@ -10,6 +10,8 @@ table Date
 
 		annotation SummarizationSetBy = Automatic
 
+		annotation UnderlyingDateTimeDataType = Date
+
 	column date_as_integer
 		formatString: 0
 		lineageTag: 3c99e248-309c-46ba-aa48-ff89121bbab5

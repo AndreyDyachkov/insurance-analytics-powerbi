@@ -82,7 +82,7 @@
                     }
                   },
                   {
-                    "value": " for fact tables. The model follows a standard ",
+                    "value": " for a fact Claims table. The model follows a standard ",
                     "textStyle": {
                       "fontSize": "11pt"
                     }

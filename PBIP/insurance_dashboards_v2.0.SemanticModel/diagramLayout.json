@@ -10,8 +10,8 @@
       "nodes": [
         {
           "location": {
-            "x": 547.06821253818259,
-            "y": 218.22410328618156
+            "x": 545.93375356962179,
+            "y": 299.56869297178974
           },
           "nodeIndex": "DimCustomer",
           "nodeLineageTag": "a3429eba-6123-463f-a52b-4557bfac07b6",
@@ -19,12 +19,12 @@
             "height": 200,
             "width": 234
           },
-          "zIndex": 7
+          "zIndex": 5
         },
         {
           "location": {
-            "x": 261.29185262026436,
-            "y": 831.0738523108563
+            "x": 265.35908210454477,
+            "y": 802.6032459208933
           },
           "nodeIndex": "DimProduct",
           "nodeLineageTag": "27db0a56-235b-43d4-ab0c-2f169d653449",
@@ -32,12 +32,12 @@
             "height": 230.96053400470694,
             "width": 234
           },
-          "zIndex": 8
+          "zIndex": 6
         },
         {
           "location": {
-            "x": 1139.3562790792091,
-            "y": 877.383841237916
+            "x": 1141.3898938213492,
+            "y": 822.4762432001304
           },
           "nodeIndex": "DimClaimStatus",
           "nodeLineageTag": "1d894b18-06ed-4c6b-aa3f-5601c3189405",
@@ -45,7 +45,7 @@
             "height": 171.55003071089453,
             "width": 234
           },
-          "zIndex": 9
+          "zIndex": 12
         },
         {
           "location": {
@@ -55,23 +55,23 @@
           "nodeIndex": "FactClaims",
           "nodeLineageTag": "b1dec924-dd2a-429a-b28d-497d6ea8ca18",
           "size": {
-            "height": 377.50081965652919,
+            "height": 292.08900048664054,
             "width": 234
           },
-          "zIndex": 14
+          "zIndex": 11
         },
         {
           "location": {
-            "x": 553.67070359023774,
-            "y": 627.84265659527671
+            "x": 555.704318332378,
+            "y": 605.4728944317344
           },
           "nodeIndex": "FactPolicies",
           "nodeLineageTag": "725c2290-2bdc-4b1c-9e8c-738900dd18b7",
           "size": {
-            "height": 303.47103502910431,
+            "height": 264.8323549284404,
             "width": 234
           },
-          "zIndex": 13
+          "zIndex": 10
         },
         {
           "location": {
@@ -84,7 +84,7 @@
             "height": 653.37620515148615,
             "width": 234
           },
-          "zIndex": 10
+          "zIndex": 7
         },
         {
           "location": {
@@ -97,12 +97,12 @@
             "height": 648.44708947495178,
             "width": 234
           },
-          "zIndex": 6
+          "zIndex": 14
         },
         {
           "location": {
-            "x": 1752.3559997746074,
-            "y": 511.4945701312011
+            "x": 1451.3810179378568,
+            "y": 480.990348999098
           },
           "nodeIndex": "AggPolicies",
           "nodeLineageTag": "a17f72e3-a70e-48d1-bc89-548878f3fb12",
@@ -110,12 +110,12 @@
             "height": 208.54798122696832,
             "width": 234
           },
-          "zIndex": 11
+          "zIndex": 8
         },
         {
           "location": {
-            "x": 1753.8399491080961,
-            "y": 747.81381247626291
+            "x": 1452.8649672713454,
+            "y": 713.24236185987934
           },
           "nodeIndex": "AggClaims",
           "nodeLineageTag": "9f297045-879c-4717-bb09-ccad7e2c2b9e",
@@ -123,11 +123,11 @@
             "height": 283.67749413777892,
             "width": 234
           },
-          "zIndex": 12
+          "zIndex": 9
         },
         {
           "location": {
-            "x": 1747.4098453319698,
+            "x": 1448.4684782373595,
             "y": 0
           },
           "nodeIndex": "CommissionRate",
@@ -136,12 +136,12 @@
             "height": 145,
             "width": 234
           },
-          "zIndex": 3
+          "zIndex": 2
         },
         {
           "location": {
-            "x": 1751.070404025495,
-            "y": 168.38175781427006
+            "x": 1452.1290369308842,
+            "y": 158.213684103569
           },
           "nodeIndex": "ExpenseRatio",
           "nodeLineageTag": "a339fc2c-821a-4c51-9233-0e1aee4ea812",
@@ -149,12 +149,12 @@
             "height": 145,
             "width": 234
           },
-          "zIndex": 4
+          "zIndex": 3
         },
         {
           "location": {
-            "x": 1478.9089349544086,
-            "y": 0
+            "x": 1718.875474526953,
+            "y": 2.0336147421402071
           },
           "nodeIndex": "_measures",
           "nodeLineageTag": "ebf1b19a-2de6-4306-9aaa-a04de6339efa",
@@ -162,12 +162,12 @@
             "height": 1000,
             "width": 234
           },
-          "zIndex": 5
+          "zIndex": 4
         },
         {
           "location": {
-            "x": 0,
-            "y": 702.95053037057573
+            "x": 4.0672294842804178,
+            "y": 670.41269449633239
           },
           "nodeIndex": "PlanGPW2025",
           "nodeLineageTag": "f3ca665a-ba75-4722-85e2-b0e940920e04",
@@ -179,8 +179,8 @@
         },
         {
           "location": {
-            "x": 1749.5600026175446,
-            "y": 338.75945100504367
+            "x": 1450.6186355229343,
+            "y": 318.4233035836416
           },
           "nodeIndex": "Target CR",
           "nodeLineageTag": "d6fb8b16-966b-4765-ae4a-198e8100ed71",
@@ -188,7 +188,7 @@
             "height": 145,
             "width": 234
           },
-          "zIndex": 2
+          "zIndex": 13
         }
       ],
       "name": "All tables",

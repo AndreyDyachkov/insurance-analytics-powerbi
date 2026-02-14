@@ -97,7 +97,6 @@ table _measures
 			-- Sum of pending claims (estimated future payouts)
 			CALCULATE(
 			    SUM(FactClaims[claim_amount]),
-			    RELATEDTABLE(DimClaimStatus),
 			    DimClaimStatus[status_name] = "Pending"
 			)
 		formatString: #,0.00
@@ -109,7 +108,6 @@ table _measures
 			-- Sum of approved claims (actual payouts made)
 			CALCULATE(
 			    SUM(FactClaims[payout_amount]),
-			    RELATEDTABLE(DimClaimStatus),
 			    DimClaimStatus[status_name] = "Approved"
 			)
 		formatString: #,0.00

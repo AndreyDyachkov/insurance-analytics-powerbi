@@ -1,11 +1,14 @@
 table 'Target CR'
+	isHidden
 	lineageTag: d6fb8b16-966b-4765-ae4a-198e8100ed71
 
 	measure 'Target CR Value' = SELECTEDVALUE('Target CR'[Target CR], 1)
 		formatString: #,0.00%;-#,0.00%;#,0.00%
+		isHidden
 		lineageTag: efc6e218-f7d6-4db3-819f-de0bd67f2fc2
 
 	column 'Target CR'
+		isHidden
 		lineageTag: da6a24be-4fc5-4e27-a5ce-78ed032a87c4
 		summarizeBy: none
 		sourceColumn: [Value]

@@ -7,7 +7,7 @@ table AggPolicies
 		isHidden
 		formatString: 0
 		lineageTag: 75fbd4be-cb32-48e2-829b-d5b5f3e4ab83
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: product_id
 
 		alternateOf

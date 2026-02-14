@@ -92,7 +92,7 @@ table FactClaims
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	partition FactClaims = m
-		mode: dual
+		mode: directQuery
 		queryGroup: 'Fact tables'
 		source =
 				let

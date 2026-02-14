@@ -22,7 +22,7 @@ table AggClaims
 		isHidden
 		formatString: 0
 		lineageTag: 633e3549-b618-429e-b151-33b472f69b49
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: claim_status_id
 
 		alternateOf
