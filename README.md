@@ -73,7 +73,7 @@ All dashboards support interactive filtering and drill-downs by **time, region, 
 * **Connectivity**:
 
   * Import mode for dimension tables and Excel data
-  * DirectQuery mode for fact tables
+  * DirectQuery mode for fact tables (except FactPolicies, as DirectQuery mode cannot handle the date range overlap logic required for GPE, exposure measures).
 
 ---
 
